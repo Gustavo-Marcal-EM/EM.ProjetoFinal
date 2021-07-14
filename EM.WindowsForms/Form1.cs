@@ -23,9 +23,7 @@ namespace EM.WindowsForms
             preencheGrid();
             sexoComboBox.SelectedIndex = 0;
             matriculaTextBox.Focus();
-
         }
-
         private void preencheGrid()
         {
             try
@@ -43,7 +41,6 @@ namespace EM.WindowsForms
         {
 
         }
-
         private void matriculaTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != 08)
@@ -51,7 +48,6 @@ namespace EM.WindowsForms
                 e.Handled = true;
             }
         }
-
         private void nomeTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsLetter(e.KeyChar) && e.KeyChar != 08 && e.KeyChar != 32)
@@ -59,7 +55,6 @@ namespace EM.WindowsForms
                 e.Handled = true;
             }
         }
-
         private void cpfTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != 08)
@@ -67,7 +62,6 @@ namespace EM.WindowsForms
                 e.Handled = true;
             }
         }
-
         private void pesquisaTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != 08 && e.KeyChar != 32)
@@ -76,7 +70,6 @@ namespace EM.WindowsForms
             }
         }
         private bool _IsEditando;
-
         public bool IsEditando
         {
             get
@@ -91,7 +84,6 @@ namespace EM.WindowsForms
                 matriculaTextBox.Enabled = !_IsEditando;
             }
         }
-
         private void buttonAdicionar_Click(object sender, EventArgs e)
         {
             Aluno aluno = new Aluno();
@@ -186,7 +178,6 @@ namespace EM.WindowsForms
                 }
             }
         }
-
         private void buttonLimpar_Click(object sender, EventArgs e)
         {
             if (buttonLimpar.Text == "Cancelar")
@@ -196,6 +187,7 @@ namespace EM.WindowsForms
                 cpfTextBox.Text = "";
                 sexoComboBox.SelectedIndex = 0;
                 nascimentoMaskedTextBox.Text = "";
+                pesquisaTextBox.Text = "";
                 matriculaTextBox.Focus();
                 IsEditando = !IsEditando;
             }
@@ -211,12 +203,12 @@ namespace EM.WindowsForms
                         ((TextBox)myControl).Text = "";
                         sexoComboBox.SelectedIndex = 0;
                         nascimentoMaskedTextBox.Text = "";
+                        pesquisaTextBox.Text = "";
                     }
                 }
                 matriculaTextBox.Focus();
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (IsEditando)
@@ -236,7 +228,6 @@ namespace EM.WindowsForms
                 }
             }
         }
-
         private void buttonEditar_Click(object sender, EventArgs e)
         {
             IsEditando = !IsEditando;
@@ -250,14 +241,14 @@ namespace EM.WindowsForms
         }
         private void buttonExcluir_Click(object sender, EventArgs e)
         {
-            int matricula = Convert.ToInt32(dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value);
-            Aluno aluno = new RepositorioAluno().GetByMatricula(matricula);
-
             DialogResult dr = MessageBox.Show("Confirme para excluir o aluno", "Confirmação de exclusão", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (dr == DialogResult.Yes)
             {
+                Aluno aluno = new Aluno();
                 try
                 {
+                    int matricula = (int)dataGridView1.Rows[dataGridView1.CurrentCell.RowIndex].Cells[0].Value;
+                    aluno = new RepositorioAluno().GetByMatricula(matricula);
                     new RepositorioAluno().Remove(aluno);
                     preencheGrid();
                     MessageBox.Show("Aluno excluído com sucesso!", "Excluir", MessageBoxButtons.OK);
@@ -267,6 +258,48 @@ namespace EM.WindowsForms
                     MessageBox.Show(ex.Message, "Erro ao excluir", MessageBoxButtons.OK);
                 }
             }
+        }
+        private void buttonPesquisar_Click(object sender, EventArgs e)
+        {
+            string termoPesquisado = pesquisaTextBox.Text;
+            if (Int32.TryParse(termoPesquisado, out int stringMatricula))
+            {
+                var matchingMatricula = new RepositorioAluno().GetByMatricula(stringMatricula);
+                try
+                {
+                    dataGridView1.DataSource = new BindingSource();
+                    dataGridView1.DataSource = matchingMatricula.ToString();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK); 
+                }
+            }
+            else
+            {
+                var matchingNames = new RepositorioAluno().GetByContendoNoNome(termoPesquisado);
+                try
+                {
+                    dataGridView1.DataSource = new BindingSource();
+                    dataGridView1.DataSource = matchingNames.ToList();
+                    new RepositorioAluno().GetByContendoNoNome(termoPesquisado);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Erro ao Pesquisar"); 
+                }
+            }
+            
+            
+            
+            
+
+            
+
+        }
+        private void pesquisaTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
         public static class ValidaCPF
         {
@@ -387,14 +420,6 @@ namespace EM.WindowsForms
                 }
             }
             return true;
-        }
-
-        private void buttonPesquisar_Click(object sender, EventArgs e)
-        {
-            
-            string parametroInputado = pesquisaTextBox.Text;
-            
-
         }
     }
 }

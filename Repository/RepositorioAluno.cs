@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Configuration;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Linq;
 
 namespace EM.Repository
 {
@@ -47,10 +49,7 @@ namespace EM.Repository
             }
             base.Add(aluno);
         }
-        public override IEnumerable<Aluno> Get(Expression<Func<Aluno, bool>> predicate)
-        {
-            return base.Get(predicate);
-        }
+        
 
         public override IEnumerable<Aluno> GetAll()
         {
@@ -147,42 +146,31 @@ namespace EM.Repository
         }
         public Aluno GetByMatricula(int matricula)
         {
-            Aluno aluno = new Aluno();
-           
-            using (FbConnection conexaoFireBird = getInstancia().getConexao())
+            string parteDaMatricula = Convert.ToString(matricula);
+            try
             {
-                try
-                {   
-                    conexaoFireBird.Open();
-                    string mSQL = "SELECT * FROM ALUNO WHERE MATRICULA = " + matricula;
-                    FbCommand cmd = new FbCommand(mSQL, conexaoFireBird);
-                    FbDataReader dataReader = cmd.ExecuteReader();
-                    while (dataReader.Read())
-                    {
-                        aluno.Matricula = Convert.ToInt32(dataReader[0]);
-                        aluno.Nome = dataReader[1].ToString();
-                        aluno.CPF = dataReader[2].ToString();
-                        aluno.Nascimento = Convert.ToDateTime(dataReader[3]).Date;
-                        aluno.Sexo = (EnumeradorSexo)dataReader[4];
-                    }
-                    return aluno;
-                }
-                catch (FbException fbex)
-                {
-                    throw fbex;
-                }
-                finally
-                {
-                    conexaoFireBird.Close();
-                }
+                return Get(aluno => aluno.Matricula.ToString().Contains(parteDaMatricula)).FirstOrDefault();
+            }
+            catch (Exception) 
+            {
+                throw;
             }
             
         }
         public IEnumerable<Aluno> GetByContendoNoNome(string parteDoNome)
         {
-            List<Aluno> alunos = new List<Aluno>();
-            return null;
+            try 
+            {
+               return Get(aluno => aluno.Nome.ToUpper().Contains(parteDoNome.ToUpper())).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+        public override IEnumerable<Aluno> Get(Expression<Func<Aluno, bool>> predicate)
+        {
+            return GetAll().AsQueryable().Where(predicate).ToList();
+        }  
     }
-    
 }

@@ -46,6 +46,7 @@ namespace EM.WindowsForms
             this.pesquisaTextBox = new System.Windows.Forms.TextBox();
             this.buttonPesquisar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.alunoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.buttonEditar = new System.Windows.Forms.Button();
             this.buttonExcluir = new System.Windows.Forms.Button();
             this.matriculaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,7 +54,6 @@ namespace EM.WindowsForms
             this.cPFDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nascimentoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sexoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.alunoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alunoBindingSource)).BeginInit();
@@ -200,6 +200,7 @@ namespace EM.WindowsForms
             this.pesquisaTextBox.Name = "pesquisaTextBox";
             this.pesquisaTextBox.Size = new System.Drawing.Size(475, 20);
             this.pesquisaTextBox.TabIndex = 8;
+            this.pesquisaTextBox.TextChanged += new System.EventHandler(this.pesquisaTextBox_TextChanged);
             this.pesquisaTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pesquisaTextBox_KeyPress);
             // 
             // buttonPesquisar
@@ -231,13 +232,16 @@ namespace EM.WindowsForms
             this.dataGridView1.DataSource = this.alunoBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(12, 174);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(562, 106);
             this.dataGridView1.StandardTab = true;
             this.dataGridView1.TabIndex = 13;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // alunoBindingSource
+            // 
+            this.alunoBindingSource.DataSource = typeof(EM.Domain.Aluno);
             // 
             // buttonEditar
             // 
@@ -297,14 +301,11 @@ namespace EM.WindowsForms
             this.sexoDataGridViewTextBoxColumn.Name = "sexoDataGridViewTextBoxColumn";
             this.sexoDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // alunoBindingSource
-            // 
-            this.alunoBindingSource.DataSource = typeof(EM.Domain.Aluno);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(586, 319);
             this.Controls.Add(this.buttonExcluir);
             this.Controls.Add(this.buttonEditar);
@@ -313,6 +314,7 @@ namespace EM.WindowsForms
             this.Controls.Add(this.pesquisaTextBox);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro de Alunos";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
