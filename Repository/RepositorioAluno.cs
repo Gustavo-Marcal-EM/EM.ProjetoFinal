@@ -2,10 +2,7 @@
 using System;
 using FirebirdSql.Data.FirebirdClient;
 using System.Linq.Expressions;
-using System.Text.RegularExpressions;
-using System.Configuration;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Linq;
 
 namespace EM.Repository
@@ -17,14 +14,14 @@ namespace EM.Repository
         {
             return instanciaFireBird;
         }
-        public FbConnection getConexao()
+        public FbConnection GetConexao()
         {
             string conn = @"DataSource=localhost; Port=3053; Database=C:\TesteSQL\BANCODEDADOS_v3.fb3; username=sysdba; password=masterkey";
             return new FbConnection(conn);
         }
         public override void Add(Aluno aluno)
         {
-            using (FbConnection conexaoFireBird = getInstancia().getConexao())
+            using (FbConnection conexaoFireBird = getInstancia().GetConexao())
             {
                 try
                 {
@@ -54,7 +51,7 @@ namespace EM.Repository
         public override IEnumerable<Aluno> GetAll()
         {
             List<Aluno> alunos = new List<Aluno>();
-            using (FbConnection conexaoFireBird = getInstancia().getConexao())
+            using (FbConnection conexaoFireBird = getInstancia().GetConexao())
             {
                 try
                 {
@@ -91,7 +88,7 @@ namespace EM.Repository
 
         public override void Remove(Aluno aluno)
         {
-            using (FbConnection conexaoFireBird = getInstancia().getConexao())
+            using (FbConnection conexaoFireBird = getInstancia().GetConexao())
             {
                 try
                 { 
@@ -114,7 +111,7 @@ namespace EM.Repository
         }
         public override void Update(Aluno aluno)
         {
-            using (FbConnection conexaoFireBird = getInstancia().getConexao())
+            using (FbConnection conexaoFireBird = getInstancia().GetConexao())
             {
                 try
                 {
@@ -141,21 +138,19 @@ namespace EM.Repository
                     conexaoFireBird.Close();
                 }
             }
-            
             base.Update(aluno);
         }
         public Aluno GetByMatricula(int matricula)
-        {
-            string parteDaMatricula = Convert.ToString(matricula);
+       {
+           
             try
             {
-                return Get(aluno => aluno.Matricula.ToString().Contains(parteDaMatricula)).FirstOrDefault();
+                return Get(aluno => aluno.Matricula.Equals(matricula)).FirstOrDefault();
             }
             catch (Exception) 
             {
                 throw;
             }
-            
         }
         public IEnumerable<Aluno> GetByContendoNoNome(string parteDoNome)
         {

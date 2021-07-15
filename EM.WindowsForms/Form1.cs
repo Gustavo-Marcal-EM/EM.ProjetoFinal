@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using EM.Repository;
 using EM.Domain;
@@ -47,6 +41,7 @@ namespace EM.WindowsForms
             {
                 e.Handled = true;
             }
+            
         }
         private void nomeTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -86,22 +81,23 @@ namespace EM.WindowsForms
         }
         private void buttonAdicionar_Click(object sender, EventArgs e)
         {
+            #region Modificar
             Aluno aluno = new Aluno();
             RepositorioAluno repositorioAluno = new RepositorioAluno();
 
             if (buttonAdicionar.Text.Equals("Modificar"))
             {
-                if (nomeTextBox.Text == string.Empty)
+                if (nomeTextBox.Text == string.Empty )
                 {
                     MessageBox.Show("Selecione o aluno na tabela para editar!");
                 }
                 else
                 {
-                    if (!ValidaCPF.IsCpf(cpfTextBox.Text.ToString()))
+                    if (!ValidaCPF.IsCpf(cpfTextBox.Text.ToString()) || !ValidaUnicidadeCPF())
                     {
-                        MessageBox.Show("CPF informado é inválido");
+                        MessageBox.Show("CPF informado é inválido ou já existe no banco de dados");
                     }
-                    else
+                    else if(int.TryParse(matriculaTextBox.Text, out int matriculaConvertida) && matriculaConvertida > 0)
                     {
                         try
                         {
@@ -112,9 +108,9 @@ namespace EM.WindowsForms
                             aluno.Sexo = (EnumeradorSexo)sexoComboBox.SelectedIndex;
                             
                         }
-                        catch(Exception ex)
+                        catch(Exception)
                         {
-                            MessageBox.Show(ex.Message, "Erro na conversão modificar");
+                            MessageBox.Show("Campo preenchido de forma incorreta", "Erro");
                         }
 
                         DialogResult dr = MessageBox.Show("Confirme para editar o aluno", "Confirmação de edição", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
@@ -130,8 +126,16 @@ namespace EM.WindowsForms
                             IsEditando = !IsEditando;
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("Matricula Inválida");
+                    }
                 }
             }
+            #endregion
+            //^^^ Modificar ^^^
+            //vvv Adicionar vvv
+            #region Adicionar
             else
             {
                 if (matriculaTextBox.Text == string.Empty || nomeTextBox.Text == string.Empty ||
@@ -153,13 +157,11 @@ namespace EM.WindowsForms
                         {
                             aluno.Matricula = Convert.ToInt32(matriculaTextBox.Text);
                             aluno.Nascimento = Convert.ToDateTime(nascimentoMaskedTextBox.Text);
-
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message, "Erro1", MessageBoxButtons.OK);
                         }
-
                         aluno.Sexo = (EnumeradorSexo)sexoComboBox.SelectedIndex;
                         if (ValidaMatricula() && ValidaNome() && ValidaUnicidadeCPF())
                         {
@@ -178,6 +180,7 @@ namespace EM.WindowsForms
                 }
             }
         }
+        #endregion
         private void buttonLimpar_Click(object sender, EventArgs e)
         {
             if (buttonLimpar.Text == "Cancelar")
@@ -216,15 +219,14 @@ namespace EM.WindowsForms
                 if (e.RowIndex >= 0)
                 {
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-
                     matriculaTextBox.Text = row.Cells[0].Value.ToString();
                     nomeTextBox.Text = row.Cells[1].Value.ToString();
-                    cpfTextBox.Text = row.Cells[2].Value.ToString();
-                    nascimentoMaskedTextBox.Text = row.Cells[3].Value.ToString();
-                    if (row.Cells[4].Value.ToString() == "Masculino")
+                    if (row.Cells[2].Value.ToString() == "Masculino")
                         sexoComboBox.SelectedIndex = 0;
                     else
                         sexoComboBox.SelectedIndex = 1;
+                    nascimentoMaskedTextBox.Text = row.Cells[3].Value.ToString();
+                    cpfTextBox.Text = row.Cells[4].Value.ToString();
                 }
             }
         }
@@ -253,26 +255,28 @@ namespace EM.WindowsForms
                     preencheGrid();
                     MessageBox.Show("Aluno excluído com sucesso!", "Excluir", MessageBoxButtons.OK);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    MessageBox.Show(ex.Message, "Erro ao excluir", MessageBoxButtons.OK);
+                    MessageBox.Show("Selecione um aluno", "Erro ao excluir", MessageBoxButtons.OK);
                 }
             }
         }
         private void buttonPesquisar_Click(object sender, EventArgs e)
         {
             string termoPesquisado = pesquisaTextBox.Text;
-            if (Int32.TryParse(termoPesquisado, out int stringMatricula))
+            if (int.TryParse(termoPesquisado, out int intMatricula))
             {
-                var matchingMatricula = new RepositorioAluno().GetByMatricula(stringMatricula);
+                MessageBox.Show("Parse bem sucedido");
+                var matchingMatricula = new RepositorioAluno().GetByMatricula(intMatricula);
                 try
                 {
-                    dataGridView1.DataSource = new BindingSource();
-                    dataGridView1.DataSource = matchingMatricula.ToString();
+                    alunoBindingSource.DataSource = matchingMatricula;
+                    dataGridView1.DataSource = alunoBindingSource;
+                    new RepositorioAluno().GetByMatricula(intMatricula);   
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Erro", MessageBoxButtons.OK); 
+                    MessageBox.Show(ex.Message, "Erro ao Pesquisar", MessageBoxButtons.OK); 
                 }
             }
             else
@@ -280,7 +284,6 @@ namespace EM.WindowsForms
                 var matchingNames = new RepositorioAluno().GetByContendoNoNome(termoPesquisado);
                 try
                 {
-                    dataGridView1.DataSource = new BindingSource();
                     dataGridView1.DataSource = matchingNames.ToList();
                     new RepositorioAluno().GetByContendoNoNome(termoPesquisado);
                 }
@@ -289,22 +292,40 @@ namespace EM.WindowsForms
                     MessageBox.Show(ex.Message, "Erro ao Pesquisar"); 
                 }
             }
-            
-            
-            
-            
-
-            
-
         }
         private void pesquisaTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
         public static class ValidaCPF
         {
             public static bool IsCpf(string cpf)
             {
+                switch (cpf)
+                {
+                    case "11111111111":
+                        return false;
+                    case "22222222222":
+                        return false;
+                    case "33333333333":
+                        return false;
+                    case "44444444444":
+                        return false;
+                    case "55555555555":
+                        return false;
+                    case "66666666666":
+                        return false;
+                    case "77777777777":
+                        return false;
+                    case "88888888888":
+                        return false;
+                    case "99999999999":
+                        return false;
+                    case "00000000000":
+                        return false;
+                    default:
+                        break;
+                }
                 if (string.IsNullOrEmpty(cpf))
                 {
                     return true;
@@ -327,9 +348,8 @@ namespace EM.WindowsForms
                     for (int i = 0; i < 9; i++)
                         soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
                 }
-                catch(FormatException fex)
+                catch(FormatException)
                 {
-                    MessageBox.Show(fex.Message);
                     return false;
                 }
                 resto = soma % 11;
@@ -353,24 +373,33 @@ namespace EM.WindowsForms
         }
         public bool ValidaMatricula()
         {
-            for (int rows = 0; rows < dataGridView1.Rows.Count; rows++)
+            if (int.TryParse(matriculaTextBox.Text, out int matriculaConvertida) && matriculaConvertida > 0)
             {
-                int col = 0;
-                int matricula = Convert.ToInt32(dataGridView1.Rows[rows].Cells[col].Value);
-                try
+
+
+                for (int rows = 0; rows < dataGridView1.Rows.Count; rows++)
                 {
-                    if (Convert.ToInt32(matriculaTextBox.Text) == matricula)
+                    int col = 0;
+                    int matricula = Convert.ToInt32(dataGridView1.Rows[rows].Cells[col].Value);
+                    try
                     {
-                        MessageBox.Show("Matricula já existente no Banco", "Erro ao validar matricula", MessageBoxButtons.OK);
-                        return false;
+                        if (Convert.ToInt32(matriculaTextBox.Text) == matricula)
+                        {
+                            MessageBox.Show("Matricula já existente no Banco", "Erro ao validar matricula", MessageBoxButtons.OK);
+                            return false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                return true;
             }
-            return true;
+            else
+            {
+                return false;
+            }
         }
         public bool ValidaNome()
         {
@@ -419,6 +448,11 @@ namespace EM.WindowsForms
                     }
                 }
             }
+            return true;
+        }
+        public bool ValidaData()
+        {
+            var dataNascimento = Convert.ToDateTime(nascimentoMaskedTextBox.Text).Date;
             return true;
         }
     }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EM.Domain
 {
@@ -41,7 +38,6 @@ namespace EM.Domain
             string cpfConvertido = CPF.ToString();
             string nascimentoConvertido = Convert.ToDateTime(Nascimento).ToString("dd/MM/yyyy");
             string sexoConvertido = Sexo.ToString();
-
 
             return $"{matriculaConvertido},{nomeConvertido},{cpfConvertido},{nascimentoConvertido},{sexoConvertido}";
         }
