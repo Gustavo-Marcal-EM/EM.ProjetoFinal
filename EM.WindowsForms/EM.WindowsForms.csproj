@@ -76,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include=".editorconfig" />
     <None Include="App1.config" />
@@ -104,6 +105,15 @@
       <Project>{04f8e847-5866-4a60-a99c-2e647fbc3eda}</Project>
       <Name>EM.Repository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\0BsWEM.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\R.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unnamed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

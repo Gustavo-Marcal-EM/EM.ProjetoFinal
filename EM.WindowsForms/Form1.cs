@@ -77,8 +77,6 @@ namespace EM.WindowsForms
         }
         private void buttonAdicionar_Click(object sender, EventArgs e)
         {
-            
-
             #region Modificar
             Aluno aluno = new Aluno();
             RepositorioAluno repositorioAluno = new RepositorioAluno();
@@ -188,7 +186,6 @@ namespace EM.WindowsForms
                         }
                         else
                         {
-
                             if (!ValidaMatricula())
                             {
                                 MessageBox.Show("Matrícula já existente", "Erro");
@@ -203,7 +200,6 @@ namespace EM.WindowsForms
 
                             else if (!ValidaData())
                                 nascimentoMaskedTextBox.Focus();
-                            
                         }
                     }
                 }
@@ -321,9 +317,17 @@ namespace EM.WindowsForms
                 }
             }
         }
-        private void pesquisaTextBox_TextChanged(object sender, EventArgs e)
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            
+            if (e.ColumnIndex == 4 && e.Value == string.Empty)
+            {
+
+            }
+            else if (e.ColumnIndex == 4 && e.Value != null)
+            {
+                double.TryParse(e.Value.ToString(), out double d);
+                e.Value = d.ToString(@"000\.000\.000-00");
+            }
         }
         public static class ValidaCPF
         {
@@ -436,13 +440,12 @@ namespace EM.WindowsForms
             {
                 for (int rows = 0; rows < dataGridView1.Rows.Count; rows++)
                 {
-                    int col = 2;
-                    string cpf = dataGridView1.Rows[rows].Cells[col].Value.ToString();
+                    int col = 4;
+                    string cpf = dataGridView1.Rows[rows].Cells[col].Value.ToString().Replace(".", "").Replace("-", "").Trim();
                     try
                     {
                         if (cpfTextBox.Text == cpf)
                         {
-                            MessageBox.Show("CPF já existente no Banco", "Erro", MessageBoxButtons.OK);
                             return false;
                         }
                     }
@@ -467,19 +470,6 @@ namespace EM.WindowsForms
             catch (Exception)
             {
                 return false;
-            }
-        }
-
-        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if(e.ColumnIndex == 4 && e.Value == string.Empty)
-            {
-
-            }
-            else if (e.ColumnIndex == 4 && e.Value != null)
-            {
-                double.TryParse(e.Value.ToString(), out double d);
-                e.Value = d.ToString(@"000\.000\.000-00");
             }
         }
     }

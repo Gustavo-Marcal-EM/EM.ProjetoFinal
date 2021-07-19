@@ -204,7 +204,6 @@ namespace EM.WindowsForms
             this.pesquisaTextBox.Name = "pesquisaTextBox";
             this.pesquisaTextBox.Size = new System.Drawing.Size(475, 20);
             this.pesquisaTextBox.TabIndex = 8;
-            this.pesquisaTextBox.TextChanged += new System.EventHandler(this.pesquisaTextBox_TextChanged);
             this.pesquisaTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.pesquisaTextBox_KeyPress);
             // 
             // buttonPesquisar
@@ -313,13 +312,16 @@ namespace EM.WindowsForms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(586, 319);
+            this.BackColor = System.Drawing.Color.Azure;
+            this.ClientSize = new System.Drawing.Size(584, 321);
             this.Controls.Add(this.buttonExcluir);
             this.Controls.Add(this.buttonEditar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonPesquisar);
             this.Controls.Add(this.pesquisaTextBox);
             this.Controls.Add(this.groupBox1);
+            this.DoubleBuffered = true;
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";

@@ -88,6 +88,7 @@ namespace EM.Repository.Testes
             Assert.IsNotNull(aluno);
             Assert.IsNotNull(repositorioAluno.GetByContendoNoNome(parteDoNome));
             Assert.IsFalse(isEmpty);
+
         }
         [TestMethod]
         public void TesteGet()
@@ -99,7 +100,7 @@ namespace EM.Repository.Testes
             //Assert
             Assert.IsNotNull(repositorioAluno.Get(x => x.Nome.ToUpper().Contains(parteDoNome.ToUpper())));
             Assert.IsTrue(IsEmpty);
-            //^^^^ Se isEmpty == true, a lista está vazia, ou seja, não foi encontrado um match
+            //^^^^ Se isEmpty == false, a lista está vazia, ou seja, não foi encontrado um match
         }
 
     }
