@@ -56,7 +56,7 @@ namespace EM.Repository
                 try
                 {
                     conexaoFireBird.Open();
-                    string mSQL = "Select * from ALUNO";
+                    string mSQL = "Select * from ALUNO " + "Order by Nome asc";
                     FbCommand cmd = new FbCommand(mSQL, conexaoFireBird);
                     FbDataReader dataReader = cmd.ExecuteReader();
                     
@@ -142,7 +142,6 @@ namespace EM.Repository
         }
         public Aluno GetByMatricula(int matricula)
        {
-           
             try
             {
                 return Get(aluno => aluno.Matricula.Equals(matricula)).FirstOrDefault();

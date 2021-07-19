@@ -46,14 +46,14 @@ namespace EM.WindowsForms
             this.pesquisaTextBox = new System.Windows.Forms.TextBox();
             this.buttonPesquisar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.alunoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.buttonEditar = new System.Windows.Forms.Button();
-            this.buttonExcluir = new System.Windows.Forms.Button();
             this.matriculaDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nomeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sexoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nascimentoDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cPFDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.alunoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.buttonEditar = new System.Windows.Forms.Button();
+            this.buttonExcluir = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.alunoBindingSource)).BeginInit();
@@ -102,7 +102,7 @@ namespace EM.WindowsForms
             // 
             // nascimentoMaskedTextBox
             // 
-            this.nascimentoMaskedTextBox.Location = new System.Drawing.Point(136, 84);
+            this.nascimentoMaskedTextBox.Location = new System.Drawing.Point(136, 83);
             this.nascimentoMaskedTextBox.Mask = "00/00/0000";
             this.nascimentoMaskedTextBox.Name = "nascimentoMaskedTextBox";
             this.nascimentoMaskedTextBox.Size = new System.Drawing.Size(100, 20);
@@ -126,15 +126,17 @@ namespace EM.WindowsForms
             this.cpfTextBox.Location = new System.Drawing.Point(242, 83);
             this.cpfTextBox.MaxLength = 11;
             this.cpfTextBox.Name = "cpfTextBox";
+            this.cpfTextBox.ShortcutsEnabled = false;
             this.cpfTextBox.Size = new System.Drawing.Size(123, 20);
             this.cpfTextBox.TabIndex = 5;
             this.cpfTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cpfTextBox_KeyPress);
             // 
             // nomeTextBox
             // 
-            this.nomeTextBox.Location = new System.Drawing.Point(134, 32);
+            this.nomeTextBox.Location = new System.Drawing.Point(134, 33);
             this.nomeTextBox.MaxLength = 100;
             this.nomeTextBox.Name = "nomeTextBox";
+            this.nomeTextBox.ShortcutsEnabled = false;
             this.nomeTextBox.Size = new System.Drawing.Size(410, 20);
             this.nomeTextBox.TabIndex = 2;
             this.nomeTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nomeTextBox_KeyPress);
@@ -144,6 +146,7 @@ namespace EM.WindowsForms
             this.matriculaTextBox.Location = new System.Drawing.Point(24, 33);
             this.matriculaTextBox.MaxLength = 9;
             this.matriculaTextBox.Name = "matriculaTextBox";
+            this.matriculaTextBox.ShortcutsEnabled = false;
             this.matriculaTextBox.Size = new System.Drawing.Size(100, 20);
             this.matriculaTextBox.TabIndex = 1;
             this.matriculaTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -198,6 +201,7 @@ namespace EM.WindowsForms
             // 
             this.pesquisaTextBox.Location = new System.Drawing.Point(12, 147);
             this.pesquisaTextBox.Name = "pesquisaTextBox";
+            this.pesquisaTextBox.ShortcutsEnabled = false;
             this.pesquisaTextBox.Size = new System.Drawing.Size(475, 20);
             this.pesquisaTextBox.TabIndex = 8;
             this.pesquisaTextBox.TextChanged += new System.EventHandler(this.pesquisaTextBox_TextChanged);
@@ -205,7 +209,8 @@ namespace EM.WindowsForms
             // 
             // buttonPesquisar
             // 
-            this.buttonPesquisar.Location = new System.Drawing.Point(499, 145);
+            this.buttonPesquisar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonPesquisar.Location = new System.Drawing.Point(499, 146);
             this.buttonPesquisar.Name = "buttonPesquisar";
             this.buttonPesquisar.Size = new System.Drawing.Size(75, 23);
             this.buttonPesquisar.TabIndex = 9;
@@ -217,7 +222,6 @@ namespace EM.WindowsForms
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Sunken;
@@ -239,30 +243,7 @@ namespace EM.WindowsForms
             this.dataGridView1.StandardTab = true;
             this.dataGridView1.TabIndex = 13;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            // 
-            // alunoBindingSource
-            // 
-            this.alunoBindingSource.DataSource = typeof(EM.Domain.Aluno);
-            // 
-            // buttonEditar
-            // 
-            this.buttonEditar.Location = new System.Drawing.Point(418, 286);
-            this.buttonEditar.Name = "buttonEditar";
-            this.buttonEditar.Size = new System.Drawing.Size(75, 23);
-            this.buttonEditar.TabIndex = 10;
-            this.buttonEditar.Text = "Editar";
-            this.buttonEditar.UseVisualStyleBackColor = true;
-            this.buttonEditar.Click += new System.EventHandler(this.buttonEditar_Click);
-            // 
-            // buttonExcluir
-            // 
-            this.buttonExcluir.Location = new System.Drawing.Point(499, 286);
-            this.buttonExcluir.Name = "buttonExcluir";
-            this.buttonExcluir.Size = new System.Drawing.Size(75, 23);
-            this.buttonExcluir.TabIndex = 11;
-            this.buttonExcluir.Text = "Excluir";
-            this.buttonExcluir.UseVisualStyleBackColor = true;
-            this.buttonExcluir.Click += new System.EventHandler(this.buttonExcluir_Click);
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // matriculaDataGridViewTextBoxColumn
             // 
@@ -302,8 +283,33 @@ namespace EM.WindowsForms
             this.cPFDataGridViewTextBoxColumn.Name = "cPFDataGridViewTextBoxColumn";
             this.cPFDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // alunoBindingSource
+            // 
+            this.alunoBindingSource.DataSource = typeof(EM.Domain.Aluno);
+            // 
+            // buttonEditar
+            // 
+            this.buttonEditar.Location = new System.Drawing.Point(418, 286);
+            this.buttonEditar.Name = "buttonEditar";
+            this.buttonEditar.Size = new System.Drawing.Size(75, 23);
+            this.buttonEditar.TabIndex = 10;
+            this.buttonEditar.Text = "Editar";
+            this.buttonEditar.UseVisualStyleBackColor = true;
+            this.buttonEditar.Click += new System.EventHandler(this.buttonEditar_Click);
+            // 
+            // buttonExcluir
+            // 
+            this.buttonExcluir.Location = new System.Drawing.Point(499, 286);
+            this.buttonExcluir.Name = "buttonExcluir";
+            this.buttonExcluir.Size = new System.Drawing.Size(75, 23);
+            this.buttonExcluir.TabIndex = 11;
+            this.buttonExcluir.Text = "Excluir";
+            this.buttonExcluir.UseVisualStyleBackColor = true;
+            this.buttonExcluir.Click += new System.EventHandler(this.buttonExcluir_Click);
+            // 
             // Form1
             // 
+            this.AcceptButton = this.buttonPesquisar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
@@ -314,6 +320,8 @@ namespace EM.WindowsForms
             this.Controls.Add(this.buttonPesquisar);
             this.Controls.Add(this.pesquisaTextBox);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro de Alunos";
