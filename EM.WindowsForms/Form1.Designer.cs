@@ -200,8 +200,8 @@ namespace EM.WindowsForms
             // pesquisaTextBox
             // 
             this.pesquisaTextBox.Location = new System.Drawing.Point(12, 147);
+            this.pesquisaTextBox.MaxLength = 100;
             this.pesquisaTextBox.Name = "pesquisaTextBox";
-            this.pesquisaTextBox.ShortcutsEnabled = false;
             this.pesquisaTextBox.Size = new System.Drawing.Size(475, 20);
             this.pesquisaTextBox.TabIndex = 8;
             this.pesquisaTextBox.TextChanged += new System.EventHandler(this.pesquisaTextBox_TextChanged);

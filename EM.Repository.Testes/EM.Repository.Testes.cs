@@ -93,7 +93,7 @@ namespace EM.Repository.Testes
         public void TesteGet()
         {
             //Arrange
-            string parteDoNome = "g";
+            string parteDoNome = "a";
             //Act
             bool IsEmpty = repositorioAluno.Get(x => x.Nome.ToUpper().Contains(parteDoNome.ToUpper())).Any();
             //Assert

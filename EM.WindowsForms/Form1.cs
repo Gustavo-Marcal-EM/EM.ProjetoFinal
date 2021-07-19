@@ -188,15 +188,22 @@ namespace EM.WindowsForms
                         }
                         else
                         {
-                            MessageBox.Show("Campo(s) inválido(s)","Erro");
+
                             if (!ValidaMatricula())
+                            {
+                                MessageBox.Show("Matrícula já existente", "Erro");
                                 matriculaTextBox.Focus();
-                                                                
+                            }
+
                             else if (!ValidaUnicidadeCPF())
+                            {
+                                MessageBox.Show("CPF inválido ou já existente", "Erro");
                                 cpfTextBox.Focus();
-                                
+                            }
+
                             else if (!ValidaData())
-                                nascimentoMaskedTextBox.Focus();  
+                                nascimentoMaskedTextBox.Focus();
+                            
                         }
                     }
                 }
