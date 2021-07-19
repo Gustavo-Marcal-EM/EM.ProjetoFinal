@@ -32,8 +32,7 @@ namespace EM.Domain.Testes
             hashCode = (hashCode * -1521134295) + aluno.Sexo.GetHashCode();
 
             //Assert
-            Assert.AreNotEqual(hashCode, 0);
-            
+            Assert.AreNotEqual(hashCode, 0);            
         }
         [TestMethod]
         public void TesteToString()

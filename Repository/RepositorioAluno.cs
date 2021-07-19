@@ -46,8 +46,6 @@ namespace EM.Repository
             }
             base.Add(aluno);
         }
-        
-
         public override IEnumerable<Aluno> GetAll()
         {
             List<Aluno> alunos = new List<Aluno>();

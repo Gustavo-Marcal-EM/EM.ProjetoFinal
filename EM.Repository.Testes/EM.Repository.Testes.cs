@@ -88,7 +88,6 @@ namespace EM.Repository.Testes
             Assert.IsNotNull(aluno);
             Assert.IsNotNull(repositorioAluno.GetByContendoNoNome(parteDoNome));
             Assert.IsFalse(isEmpty);
-
         }
         [TestMethod]
         public void TesteGet()
