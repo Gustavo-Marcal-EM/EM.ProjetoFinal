@@ -199,7 +199,10 @@ namespace EM.WindowsForms
                             }
 
                             else if (!ValidaData())
+                            {
+                                MessageBox.Show("Data inválida", "Erro");
                                 nascimentoMaskedTextBox.Focus();
+                            }
                         }
                     }
                 }
@@ -462,7 +465,7 @@ namespace EM.WindowsForms
             try
             {
                 var dataNascimento = Convert.ToDateTime(nascimentoMaskedTextBox.Text).Date;
-                if (dataNascimento >= Convert.ToDateTime("01/01/1930") && dataNascimento <= Convert.ToDateTime(DateTime.Now).Date)
+                if (dataNascimento >= Convert.ToDateTime("01/01/1930") && dataNascimento < Convert.ToDateTime(DateTime.Now).Date)
                     return true;
                 else
                     return false;
